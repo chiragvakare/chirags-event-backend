@@ -1,6 +1,7 @@
 package com.yuvraj.model;
 
 import java.time.LocalDate;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -9,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -28,6 +30,9 @@ public class Event {
     @JsonBackReference
     private User user;
     
+    @ManyToMany
+    @JsonBackReference
+    private List<User> registeredUsers;
     
     // Getters and setters
 	public Long getId() {
@@ -72,5 +77,13 @@ public class Event {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	public List<User> getRegisteredUsers() {
+		return registeredUsers;
+	}
+	public void setRegisteredUsers(List<User> registeredUsers) {
+		this.registeredUsers = registeredUsers;
+	}
+	
+	
 	
 }

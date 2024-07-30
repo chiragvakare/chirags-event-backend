@@ -95,13 +95,18 @@ public class EventController {
 	    }
 	 
 	 @PostMapping("/register")
-	 public ResponseEntity<?> registerForEvent(@RequestBody RegistrationRequest request) {
-	     Long userId = request.getUserId();
-	     Long eventId = request.getEventId();
-	     
-	     // Call service to handle registration
-	     eventService.registerUserForEvent(userId, eventId);
-	     
-	     return ResponseEntity.ok("Registered successfully");
-	 }
+	    public ResponseEntity<?> registerUserForEvent(@RequestBody RegistrationRequest registrationRequest) {
+	        Long userId = registrationRequest.getUserId();
+	        Long eventId = registrationRequest.getEventId();
+
+	        eventService.registerUserForEvent(userId, eventId);
+
+	        return ResponseEntity.ok().build();
+	    }
+
+	    @GetMapping("/user/{userId}/registered-events")
+	    public ResponseEntity<Set<Event>> getRegisteredEvents(@PathVariable Long userId) {
+	        Set<Event> registeredEvents = eventService.getRegisteredEventsByUserId(userId);
+	        return ResponseEntity.ok(registeredEvents);
+	    }
 }

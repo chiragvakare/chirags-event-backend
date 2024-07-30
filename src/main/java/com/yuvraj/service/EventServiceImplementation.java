@@ -3,6 +3,7 @@ package com.yuvraj.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -102,24 +103,24 @@ public class EventServiceImplementation implements EventService {
     public List<Event> getEventsForUser(Long userId) {
         return eventRepository.findByUserId(userId);
     }
-
+	
 	@Override
 	public void registerUserForEvent(Long userId, Long eventId) {
-		// TODO Auto-generated method stub
-		// Fetch the user and event from the database
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-        Event event = eventRepository.findById(eventId)
-            .orElseThrow(() -> new RuntimeException("Event not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found"));
 
-        // Create a new registration
-        Registration registration = new Registration();
-        registration.setUser(user);
-        registration.setEvent(event);
+        event.getRegisteredUsers().add(user);
+        user.getRegisteredEvents().add(event);
 
-        // Save the registration
-        registrationRepository.save(registration);
-	}
+        eventRepository.save(event);
+        userRepository.save(user);
+    }
+	
+	@Override
+    public Set<Event> getRegisteredEventsByUserId(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getRegisteredEvents();
+    }
 }
 
 

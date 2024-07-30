@@ -30,4 +30,6 @@ public interface EventService {
 	
 	public void registerUserForEvent(Long userId, Long eventId);
 
+	Set<Event> getRegisteredEventsByUserId(Long userId);
+
 }
