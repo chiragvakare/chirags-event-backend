@@ -4,7 +4,11 @@ import java.util.*;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +18,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +30,16 @@ public class User {
     private Collection<? extends GrantedAuthority> authorities;
     
     @OneToMany(mappedBy = "user")
-    @JsonManagedReference
+    @JsonIgnore
     private List<Event> events;
+    //@JsonManagedReference
+    
     
     @ManyToMany(mappedBy="registeredUsers")
-    @JsonManagedReference
+    @JsonIgnore
     private Set<Event> registeredEvents;
+    //@JsonBackReference
+    
 
 	// Getters and setters
 	public Long getId() {

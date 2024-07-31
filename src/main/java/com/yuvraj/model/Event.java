@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +18,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 @Entity
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Event {
 
     @Id
@@ -27,12 +32,16 @@ public class Event {
     
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = true)
-    @JsonBackReference
+    @JsonIgnore
     private User user;
+    //@JsonBackReference
+    
     
     @ManyToMany
-    @JsonBackReference
+    @JsonIgnore
     private List<User> registeredUsers;
+    //@JsonManagedReference
+    
     
     // Getters and setters
 	public Long getId() {
