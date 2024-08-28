@@ -37,7 +37,8 @@ public class SecurityConfig {
                     CorsConfiguration cfg = new CorsConfiguration();
                     cfg.setAllowedOrigins(Arrays.asList(
                         "http://localhost:3000", // React
-                        "http://localhost:4200"  // Angular
+                        "http://localhost:4200" , // Angular
+                        "https://chirags-event-frontend.vercel.app"
                     ));
                     cfg.setAllowedMethods(Collections.singletonList("*"));
                     cfg.setAllowCredentials(true);
